@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useAuthContext } from "../../context/AuthContext";
 
 const cardClass = "rounded-2xl bg-white p-6 shadow-sm";
@@ -45,9 +46,12 @@ export default function Profile() {
               Browse courses and find something new to learn.
             </p>
 
-            <button className="mt-5 rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600">
+            <Link
+              to={"/user/courses"}
+              className="inline-block mt-5 rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
+            >
               Browse Courses
-            </button>
+            </Link>
           </div>
         </div>
       </div>

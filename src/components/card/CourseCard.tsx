@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import type { Course } from "../../schema/schema";
 
 interface CourseCardProps {
@@ -5,6 +6,8 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course }: CourseCardProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg">
       <div className="mb-5 flex items-center justify-between">
@@ -35,6 +38,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
         <button
           type="button"
+          onClick={() => navigate(`/user/courses/${course._id}`)}
           className="rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
         >
           View Course

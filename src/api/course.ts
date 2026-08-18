@@ -17,3 +17,16 @@ export const getCourses = async (params?: Record<string, string>) => {
 
   return res.json();
 };
+
+
+export const getCourseDetail = async (id: string) => {
+  const res = await fetch(`${BASE_URL}/api/courses/getcourses/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+  if (!res.ok) throw new Error("Unable to fetch course");
+
+  const data = await res.json();
+  return data;
+};

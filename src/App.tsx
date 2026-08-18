@@ -9,6 +9,7 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 import CoursesPage from "./pages/User/CoursesPage";
 import Profile from "./pages/User/Profile";
 import PublicRoute from "./routes/PublicRoutes";
+import CourseDetails from "./pages/User/CourseDetail";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/user" element={<DashboardLayout />}>
             <Route index element={<Profile />} />
             <Route path="courses" element={<CoursesPage />} />
+            <Route path="courses/:id" element={<CourseDetails />} />
             <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
