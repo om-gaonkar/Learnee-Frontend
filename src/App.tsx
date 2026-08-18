@@ -6,7 +6,9 @@ import DashboardLayout from "./layouts/UserLayout";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./routes/ProtectedRoutes";
-import CoursesPage from "./pages/Courses/CoursesPage";
+import CoursesPage from "./pages/User/CoursesPage";
+import Profile from "./pages/User/Profile";
+import PublicRoute from "./routes/PublicRoutes";
 
 function App() {
   return (
@@ -14,14 +16,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/auth" element={<Auth />}>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-        </Route>
 
+        <Route element={<PublicRoute />}>
+          <Route path="/auth" element={<Auth />}>
+            <Route index element={<LoginPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+          </Route>
+        </Route>
         <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
           <Route path="/user" element={<DashboardLayout />}>
+            <Route index element={<Profile />} />
             <Route path="courses" element={<CoursesPage />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

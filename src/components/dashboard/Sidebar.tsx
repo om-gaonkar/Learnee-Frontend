@@ -1,5 +1,13 @@
-import { BookOpen, LayoutDashboard, Settings, Trophy, X } from "lucide-react";
-import { NavLink } from "react-router";
+import {
+  BookOpen,
+  LayoutDashboard,
+  LogOut,
+  Settings,
+  Trophy,
+  X,
+} from "lucide-react";
+import { NavLink, useNavigate } from "react-router";
+import { useAuthContext } from "../../context/AuthContext";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -7,11 +15,14 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { logout } = useAuthContext();
+  const navigate = useNavigate();
+
   const menuItems = [
     {
       title: "Dashboard",
       icon: LayoutDashboard,
-      path: "/dashboard",
+      path: "/user/profile",
     },
     {
       title: "Courses",
@@ -21,14 +32,24 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     {
       title: "Progress",
       icon: Trophy,
-      path: "/progress",
+      path: "/user/progress",
     },
     {
       title: "Settings",
       icon: Settings,
-      path: "/settings",
+      path: "/user/settings",
     },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      onClose();
+      navigate("/auth/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -44,7 +65,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
       >
-        {/* Logo */}
         <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
           <h1 className="text-xl font-bold text-gray-900">
             Ler<span className="text-blue-600">nee</span>
@@ -58,7 +78,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 p-4">
           <ul className="space-y-1">
             {menuItems.map((item) => {
@@ -70,8 +89,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     to={item.path}
                     onClick={onClose}
                     className={({ isActive }) =>
-                      `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition
-                      ${
+                      `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
                         isActive
                           ? "bg-blue-50 text-blue-600"
                           : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -86,6 +104,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             })}
           </ul>
         </nav>
+
+        <div className="p-4">
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+          >
+            <LogOut size={19} />
+            Logout
+          </button>
+        </div>
       </aside>
     </>
   );

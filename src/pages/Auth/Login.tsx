@@ -55,7 +55,7 @@ export default function Login() {
 
       console.log("Logged in successfully:", result);
 
-      navigate("/");
+      navigate("/user/profile");
       setIsAuthenticated(true);
       setUser(result?.user);
     } catch (error) {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { AuthContext, type User } from "./AuthContext";
-import { CheckAuth } from "../api/auth";
+import { CheckAuth, logoutApi } from "../api/auth";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -31,12 +31,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     initAuth();
   }, []);
-
-  const logout = () => {
-    setUser(null);
-    setToken(null);
+  const logout = async () => {
+    try {
+      await logoutApi();
+    } finally {
+      setUser(null);
+      setToken(null);
+      setIsAuthenticated(false);
+    }
   };
-
   const value = useMemo(
     () => ({
       user,
